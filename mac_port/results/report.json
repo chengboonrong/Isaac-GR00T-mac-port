@@ -1,0 +1,69 @@
+{
+  "mode": "closed_loop",
+  "gr00t_commit": "3b49067943eb1ab2eb2203b93d461c4390c78da3",
+  "checkpoint": "nvidia/GR00T-N1.7-LIBERO/libero_10",
+  "checkpoint_revision": "658540327860f93dd2cb9c1ed3e3b10fb792a0eb",
+  "embodiment_tag": "LIBERO_PANDA",
+  "device": "mps",
+  "deviations_from_upstream": [
+    "server: scipy upgraded past the pinned 1.15.3",
+    "server: float32 instead of bfloat16 in gr00t/policy/gr00t_policy.py",
+    "server: flash-attn absent, sdpa fallback",
+    "sim: egl-probe skipped",
+    "sim: mujoco plugin folder disabled",
+    "sim: MUJOCO_GL=cgl, PYOPENGL_PLATFORM=darwin"
+  ],
+  "successes": 5,
+  "trials": [
+    {
+      "task_id": "libero_sim/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy",
+      "seed": 0,
+      "success": true,
+      "termination": "success",
+      "steps": 163,
+      "wall_s": 19.1,
+      "latency_s_per_call_upper_bound": 0.91,
+      "video": "seed_0.mp4"
+    },
+    {
+      "task_id": "libero_sim/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy",
+      "seed": 1,
+      "success": true,
+      "termination": "success",
+      "steps": 172,
+      "wall_s": 19.8,
+      "latency_s_per_call_upper_bound": 0.9,
+      "video": "seed_1.mp4"
+    },
+    {
+      "task_id": "libero_sim/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy",
+      "seed": 2,
+      "success": true,
+      "termination": "success",
+      "steps": 151,
+      "wall_s": 17.9,
+      "latency_s_per_call_upper_bound": 0.94,
+      "video": "seed_2.mp4"
+    },
+    {
+      "task_id": "libero_sim/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy",
+      "seed": 3,
+      "success": true,
+      "termination": "success",
+      "steps": 165,
+      "wall_s": 19.2,
+      "latency_s_per_call_upper_bound": 0.92,
+      "video": "seed_3.mp4"
+    },
+    {
+      "task_id": "libero_sim/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy",
+      "seed": 4,
+      "success": true,
+      "termination": "success",
+      "steps": 269,
+      "wall_s": 27.0,
+      "latency_s_per_call_upper_bound": 0.79,
+      "video": "seed_4.mp4"
+    }
+  ]
+}

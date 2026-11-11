@@ -2,7 +2,7 @@
 
 This branch runs NVIDIA's `GR00T-N1.7-LIBERO` policy server and the LIBERO simulator on a Mac (PyTorch MPS), with no CUDA.
 
-![Closed-loop rollout, seed 0](runs/closed_loop/seed_0.gif)
+![Closed-loop rollout, seed 0](results/seed_0.gif)
 
 *`STUDY_SCENE1`: "pick up the book and place it in the back compartment of the caddy". Closed loop, MPS, seed 0.*
 
@@ -12,13 +12,13 @@ This branch runs NVIDIA's `GR00T-N1.7-LIBERO` policy server and the LIBERO simul
 
 | Seed | Result | Steps | Wall time | Video |
 |---|---|---|---|---|
-| 0 | success | 163 | 19.1 s | [seed_0.mp4](runs/closed_loop/seed_0.mp4) |
-| 1 | success | 172 | 19.8 s | [seed_1.mp4](runs/closed_loop/seed_1.mp4) |
-| 2 | success | 151 | 17.9 s | [seed_2.mp4](runs/closed_loop/seed_2.mp4) |
-| 3 | success | 165 | 19.2 s | [seed_3.mp4](runs/closed_loop/seed_3.mp4) |
-| 4 | success | 269 | 27.0 s | [seed_4.mp4](runs/closed_loop/seed_4.mp4) |
+| 0 | success | 163 | 19.1 s | [seed_0.mp4](results/seed_0.mp4) |
+| 1 | success | 172 | 19.8 s | [seed_1.mp4](results/seed_1.mp4) |
+| 2 | success | 151 | 17.9 s | [seed_2.mp4](results/seed_2.mp4) |
+| 3 | success | 165 | 19.2 s | [seed_3.mp4](results/seed_3.mp4) |
+| 4 | success | 269 | 27.0 s | [seed_4.mp4](results/seed_4.mp4) |
 
-Each policy call takes about 0.8–0.9 s (upper bound: wall time ÷ action chunks, 8 actions per chunk). Full record: [`runs/closed_loop/report.json`](runs/closed_loop/report.json).
+Each policy call takes about 0.8–0.9 s (upper bound: wall time ÷ action chunks, 8 actions per chunk). Full record: [`results/report.json`](results/report.json).
 
 Pinned to upstream commit `3b49067` and checkpoint `nvidia/GR00T-N1.7-LIBERO/libero_10` @ `6585403`.
 
