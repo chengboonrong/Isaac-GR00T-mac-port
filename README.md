@@ -1,3 +1,5 @@
+> **Apple Silicon port:** this fork runs GR00T N1.7 closed-loop in LIBERO on a Mac (MPS). See [`mac_port/`](mac_port/README.md) for results and rollout videos.
+
 <div align="center">
 
   <img src="media/header_compress.png" width="800" alt="NVIDIA Isaac GR00T N1.7 Header">
