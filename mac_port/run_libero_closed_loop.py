@@ -1,14 +1,17 @@
 """Closed-loop trials of one LIBERO task against a running GR00T server.
 Each trial runs upstream's rollout client once with one seed."""
+
 import ast
 import json
 import math
 import os
 import pathlib
 import re
+import shutil
 import socket
 import subprocess
 import time
+
 
 HERE = pathlib.Path(__file__).resolve().parent
 GR00T = HERE.parent
@@ -39,21 +42,41 @@ PINS = {
 }
 
 
-def trial(seed):
-    out = OUT / f"seed_{seed}"
-    out.mkdir(parents=True, exist_ok=True)
+def trial(seed, task=TASK, out_root=OUT):
+    out = out_root / f"seed_{seed}"
+    shutil.rmtree(out, ignore_errors=True)
+    out.mkdir(parents=True)
     cmd = [
-        str(PY), "gr00t/eval/rollout_policy.py",
-        "--n-episodes", "1", "--n-envs", "1",
-        "--policy-client-host", HOST, "--policy-client-port", str(PORT),
-        "--max-episode-steps", str(MAX_STEPS), "--n-action-steps", str(ACTION_STEPS),
-        "--env-name", TASK, "--seed", str(seed), "--video-dir", str(out),
+        str(PY),
+        "gr00t/eval/rollout_policy.py",
+        "--n-episodes",
+        "1",
+        "--n-envs",
+        "1",
+        "--policy-client-host",
+        HOST,
+        "--policy-client-port",
+        str(PORT),
+        "--max-episode-steps",
+        str(MAX_STEPS),
+        "--n-action-steps",
+        str(ACTION_STEPS),
+        "--env-name",
+        task,
+        "--seed",
+        str(seed),
+        "--video-dir",
+        str(out),
     ]
-    result = {"task_id": TASK, "seed": seed, "success": False, "video_dir": str(out)}
+    result = {"task_id": task, "seed": seed, "success": False, "video_dir": str(out)}
     start = time.time()
     try:
         run = subprocess.run(
-            cmd, cwd=GR00T, capture_output=True, text=True, timeout=TIMEOUT_S,
+            cmd,
+            cwd=GR00T,
+            capture_output=True,
+            text=True,
+            timeout=TIMEOUT_S,
             env={**os.environ, "MUJOCO_GL": "cgl", "PYOPENGL_PLATFORM": "darwin"},
         )
     except subprocess.TimeoutExpired:
@@ -69,7 +92,11 @@ def trial(seed):
     return {
         **result,
         "success": bool(success),
-        "termination": "success" if success else "max_steps" if steps >= MAX_STEPS else "env_terminated",
+        "termination": "success"
+        if success
+        else "max_steps"
+        if steps >= MAX_STEPS
+        else "env_terminated",
         "steps": steps,
         "wall_s": round(wall, 1),
         "latency_s_per_call_upper_bound": round(wall / math.ceil(steps / ACTION_STEPS), 2),
@@ -77,13 +104,20 @@ def trial(seed):
 
 
 if __name__ == "__main__":
-    base = subprocess.run(["git", "-C", str(GR00T), "merge-base", "--is-ancestor", PINS["gr00t_commit"], "HEAD"])
+    base = subprocess.run(
+        ["git", "-C", str(GR00T), "merge-base", "--is-ancestor", PINS["gr00t_commit"], "HEAD"]
+    )
     assert base.returncode == 0, f"checkout does not contain upstream {PINS['gr00t_commit']}"
     socket.create_connection((HOST, PORT), timeout=5).close()
     trials = []
     for seed in SEEDS:
         trials.append(trial(seed))
         print(seed, trials[-1]["termination"], flush=True)
-    report = {"mode": "closed_loop", **PINS, "successes": sum(t["success"] for t in trials), "trials": trials}
+    report = {
+        "mode": "closed_loop",
+        **PINS,
+        "successes": sum(t["success"] for t in trials),
+        "trials": trials,
+    }
     (OUT / "report.json").write_text(json.dumps(report, indent=2))
     print(f"{report['successes']}/{len(trials)} succeeded")
