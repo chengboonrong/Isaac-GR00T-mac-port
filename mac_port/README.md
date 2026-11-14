@@ -48,3 +48,35 @@ uv run python gr00t/eval/run_gr00t_server.py \
 # Terminal 2: 5 seeded closed-loop trials, writes mac_port/runs/closed_loop_local/
 python3 mac_port/run_libero_closed_loop.py
 ```
+
+## Fleet demo
+
+![Fleet wall: 6 workcells, 18 jobs](results/fleet_demo.gif)
+
+*6 simulated workcells · one GR00T N1.7 model · one MacBook (MPS).* Full-resolution video: [`results/fleet_demo.mp4`](results/fleet_demo.mp4) (1536×640, 31 s).
+
+Six LIBERO-10 pick and sort tasks, three seeded jobs each, all driven by the same `libero_10` checkpoint. The jobs ran one after another against a single MPS policy server, and the grid was assembled afterwards from the recorded clips. The workcells did not run simultaneously in real time. The counter goes up on the frame where each successful job ends, and failed jobs are not counted.
+
+17 of 18 jobs succeeded.
+
+| Workcell | Succeeded | Steps (seeds 0, 1, 2) |
+|---|---|---|
+| Soup + sauce → basket | 3/3 | 338, 282, 231 |
+| Cream cheese + butter → basket | 3/3 | 231, 242, 232 |
+| Sort mugs → left / right plate | 2/3 | 720 (hit the step limit), 234, 215 |
+| Book → caddy | 3/3 | 160, 157, 150 |
+| Mug → plate, pudding → right | 3/3 | 282, 280, 201 |
+| Soup + cream cheese → basket | 3/3 | 412, 268, 233 |
+
+Full record: [`results/fleet_report.json`](results/fleet_report.json).
+
+```bash
+# Terminal 1: start the server with the venv's python directly. `uv run` re-syncs the env
+# back to the pinned scipy 1.15.3, which fails to load on macOS.
+.venv/bin/python gr00t/eval/run_gr00t_server.py \
+    --model-path checkpoints/GR00T-N1.7-LIBERO/libero_10 \
+    --embodiment-tag LIBERO_PANDA --device mps --use-sim-policy-wrapper
+
+# Terminal 2: 18 jobs (~10 min), then render. Add --render-only to rebuild the video from runs/fleet/report.json.
+cd mac_port && ../gr00t/eval/sim/LIBERO/libero_uv/.venv/bin/python run_fleet_demo.py
+```

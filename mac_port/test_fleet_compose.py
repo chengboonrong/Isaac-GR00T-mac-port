@@ -34,6 +34,14 @@ def test_tile_shape():
     assert tile([f] * 6, cols=3).shape == (568, 1536, 3)
 
 
+def test_tile_pads_mismatched_heights():
+    # LIBERO scenes 5/6 record 512x280 clips, the rest 512x284.
+    a, b = np.ones((284, 512, 3), np.uint8), np.ones((280, 512, 3), np.uint8)
+    out = tile([a, b, a, a, b, a], cols=3)
+    assert out.shape == (568, 1536, 3)
+    assert out[280:284, 512:1024].max() == 0  # padding below the shorter cell is black
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

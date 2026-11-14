@@ -1,0 +1,218 @@
+{
+  "mode": "fleet_demo",
+  "gr00t_commit": "3b49067943eb1ab2eb2203b93d461c4390c78da3",
+  "checkpoint": "nvidia/GR00T-N1.7-LIBERO/libero_10",
+  "checkpoint_revision": "658540327860f93dd2cb9c1ed3e3b10fb792a0eb",
+  "embodiment_tag": "LIBERO_PANDA",
+  "device": "mps",
+  "deviations_from_upstream": [
+    "server: scipy upgraded past the pinned 1.15.3",
+    "server: float32 instead of bfloat16 in gr00t/policy/gr00t_policy.py",
+    "server: flash-attn absent, sdpa fallback",
+    "sim: egl-probe skipped",
+    "sim: mujoco plugin folder disabled",
+    "sim: MUJOCO_GL=cgl, PYOPENGL_PLATFORM=darwin"
+  ],
+  "successes": 17,
+  "jobs": 18,
+  "trials": [
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "seed": 0,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket/seed_0",
+      "termination": "success",
+      "steps": 338,
+      "wall_s": 54.3,
+      "latency_s_per_call_upper_bound": 1.26,
+      "label": "Soup + sauce → basket"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "seed": 1,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket/seed_1",
+      "termination": "success",
+      "steps": 282,
+      "wall_s": 34.9,
+      "latency_s_per_call_upper_bound": 0.97,
+      "label": "Soup + sauce → basket"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "seed": 2,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket/seed_2",
+      "termination": "success",
+      "steps": 231,
+      "wall_s": 44.3,
+      "latency_s_per_call_upper_bound": 1.53,
+      "label": "Soup + sauce → basket"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "seed": 0,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket/seed_0",
+      "termination": "success",
+      "steps": 231,
+      "wall_s": 32.2,
+      "latency_s_per_call_upper_bound": 1.11,
+      "label": "Cream cheese + butter → basket"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "seed": 1,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket/seed_1",
+      "termination": "success",
+      "steps": 242,
+      "wall_s": 30.1,
+      "latency_s_per_call_upper_bound": 0.97,
+      "label": "Cream cheese + butter → basket"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "seed": 2,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket/seed_2",
+      "termination": "success",
+      "steps": 232,
+      "wall_s": 32.9,
+      "latency_s_per_call_upper_bound": 1.13,
+      "label": "Cream cheese + butter → basket"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate",
+      "seed": 0,
+      "success": false,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate/seed_0",
+      "termination": "max_steps",
+      "steps": 720,
+      "wall_s": 80.8,
+      "latency_s_per_call_upper_bound": 0.9,
+      "label": "Sort mugs → left / right plate"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate",
+      "seed": 1,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate/seed_1",
+      "termination": "success",
+      "steps": 234,
+      "wall_s": 28.2,
+      "latency_s_per_call_upper_bound": 0.94,
+      "label": "Sort mugs → left / right plate"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate",
+      "seed": 2,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate/seed_2",
+      "termination": "success",
+      "steps": 215,
+      "wall_s": 25.2,
+      "latency_s_per_call_upper_bound": 0.93,
+      "label": "Sort mugs → left / right plate"
+    },
+    {
+      "task_id": "libero_sim/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy",
+      "seed": 0,
+      "success": true,
+      "video_dir": "runs/fleet/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy/seed_0",
+      "termination": "success",
+      "steps": 160,
+      "wall_s": 19.1,
+      "latency_s_per_call_upper_bound": 0.96,
+      "label": "Book → caddy"
+    },
+    {
+      "task_id": "libero_sim/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy",
+      "seed": 1,
+      "success": true,
+      "video_dir": "runs/fleet/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy/seed_1",
+      "termination": "success",
+      "steps": 157,
+      "wall_s": 18.9,
+      "latency_s_per_call_upper_bound": 0.94,
+      "label": "Book → caddy"
+    },
+    {
+      "task_id": "libero_sim/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy",
+      "seed": 2,
+      "success": true,
+      "video_dir": "runs/fleet/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy/seed_2",
+      "termination": "success",
+      "steps": 150,
+      "wall_s": 18.2,
+      "latency_s_per_call_upper_bound": 0.96,
+      "label": "Book → caddy"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate",
+      "seed": 0,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate/seed_0",
+      "termination": "success",
+      "steps": 282,
+      "wall_s": 29.4,
+      "latency_s_per_call_upper_bound": 0.82,
+      "label": "Mug → plate, pudding → right"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate",
+      "seed": 1,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate/seed_1",
+      "termination": "success",
+      "steps": 280,
+      "wall_s": 28.8,
+      "latency_s_per_call_upper_bound": 0.82,
+      "label": "Mug → plate, pudding → right"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate",
+      "seed": 2,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate/seed_2",
+      "termination": "success",
+      "steps": 201,
+      "wall_s": 23.3,
+      "latency_s_per_call_upper_bound": 0.89,
+      "label": "Mug → plate, pudding → right"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "seed": 0,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket/seed_0",
+      "termination": "success",
+      "steps": 412,
+      "wall_s": 39.1,
+      "latency_s_per_call_upper_bound": 0.75,
+      "label": "Soup + cream cheese → basket"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "seed": 1,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket/seed_1",
+      "termination": "success",
+      "steps": 268,
+      "wall_s": 28.1,
+      "latency_s_per_call_upper_bound": 0.83,
+      "label": "Soup + cream cheese → basket"
+    },
+    {
+      "task_id": "libero_sim/LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "seed": 2,
+      "success": true,
+      "video_dir": "runs/fleet/LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket/seed_2",
+      "termination": "success",
+      "steps": 233,
+      "wall_s": 25.7,
+      "latency_s_per_call_upper_bound": 0.86,
+      "label": "Soup + cream cheese → basket"
+    }
+  ]
+}

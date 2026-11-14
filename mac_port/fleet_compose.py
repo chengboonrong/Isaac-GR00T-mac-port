@@ -36,5 +36,8 @@ def load_clip(video_dir):
 
 
 def tile(frames, cols):
+    """Row-major grid; frames smaller than the largest are padded with black (bottom/right)."""
+    h, w = max(f.shape[0] for f in frames), max(f.shape[1] for f in frames)
+    frames = [np.pad(f, ((0, h - f.shape[0]), (0, w - f.shape[1]), (0, 0))) for f in frames]
     rows = [np.concatenate(frames[i : i + cols], axis=1) for i in range(0, len(frames), cols)]
     return np.concatenate(rows, axis=0)
