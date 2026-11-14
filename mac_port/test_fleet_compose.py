@@ -4,6 +4,7 @@ import pathlib
 import tempfile
 
 from fleet_compose import cell_frame, completed_at, load_clip, tile
+import imageio.v3 as iio
 import numpy as np
 
 
@@ -26,7 +27,17 @@ def test_cell_frame_crosses_into_next_clip():
 
 def test_missing_clip_is_slate():
     s = load_clip(pathlib.Path(tempfile.mkdtemp()))
-    assert s.shape == (20, 284, 512, 3) and s.max() == 0
+    assert s.shape == (20, 256, 512, 3) and s.max() == 0
+
+
+def test_load_clip_crops_overlay_strip():
+    # Upstream burns "<task> (success flag)" into rows 256+; the flag often reads (0) on success.
+    d = pathlib.Path(tempfile.mkdtemp())
+    clip = np.zeros((4, 284, 512, 3), np.uint8)
+    clip[:, 256:] = 255
+    iio.imwrite(d / "x_s1.mp4", clip, fps=20, codec="libx264", macro_block_size=1)
+    out = load_clip(d)
+    assert out.shape == (4, 256, 512, 3) and out.max() < 40
 
 
 def test_tile_shape():

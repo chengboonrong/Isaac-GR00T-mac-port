@@ -6,7 +6,8 @@ import imageio.v3 as iio
 import numpy as np
 
 
-SLATE = (20, 284, 512, 3)
+IMAGE_H = 256  # camera views; upstream burns a "<task> (success flag)" strip below
+SLATE = (20, IMAGE_H, 512, 3)
 
 
 def completed_at(cells, frame):
@@ -30,9 +31,10 @@ def cell_frame(clips, frame):
 
 
 def load_clip(video_dir):
-    """First mp4 in video_dir, or a black slate when the job left no video."""
+    """First mp4 in video_dir without the overlay strip, or a black slate when there is no video.
+    The strip's per-frame flag often reads (0) on a successful job's last frame, so it is cropped."""
     videos = sorted(pathlib.Path(video_dir).glob("*.mp4"))
-    return iio.imread(videos[0]) if videos else np.zeros(SLATE, np.uint8)
+    return iio.imread(videos[0])[:, :IMAGE_H] if videos else np.zeros(SLATE, np.uint8)
 
 
 def tile(frames, cols):

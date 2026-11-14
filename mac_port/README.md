@@ -40,8 +40,8 @@ Only the float32 change is committed. The environment changes were made by hand 
 Set up the sim and download the checkpoint as in [`examples/LIBERO/README.md`](../examples/LIBERO/README.md), applying the environment changes above. Then:
 
 ```bash
-# Terminal 1: policy server on MPS
-uv run python gr00t/eval/run_gr00t_server.py \
+# Terminal 1: policy server on MPS (not `uv run`: it re-syncs scipy to 1.15.3, which fails on macOS)
+.venv/bin/python gr00t/eval/run_gr00t_server.py \
     --model-path checkpoints/GR00T-N1.7-LIBERO/libero_10 \
     --embodiment-tag LIBERO_PANDA --device mps --use-sim-policy-wrapper
 
@@ -53,7 +53,7 @@ python3 mac_port/run_libero_closed_loop.py
 
 ![Fleet wall: 6 workcells, 18 jobs](results/fleet_demo.gif)
 
-*6 simulated workcells · one GR00T N1.7 model · one MacBook (MPS).* Full-resolution video: [`results/fleet_demo.mp4`](results/fleet_demo.mp4) (1536×640, 31 s).
+*6 simulated workcells · one GR00T N1.7 model · one MacBook (MPS).* Full-resolution video: [`results/fleet_demo.mp4`](results/fleet_demo.mp4) (1536×592, 31 s).
 
 Six LIBERO-10 pick and sort tasks, three seeded jobs each, all driven by the same `libero_10` checkpoint. The jobs ran one after another against a single MPS policy server, and the grid was assembled afterwards from the recorded clips. The workcells did not run simultaneously in real time. The counter goes up on the frame where each successful job ends, and failed jobs are not counted.
 

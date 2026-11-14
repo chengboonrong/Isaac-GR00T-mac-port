@@ -25,8 +25,9 @@ TASKS = [
     ("Soup + cream cheese → basket", "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket"),
 ]  # fmt: skip
 SEEDS = [0, 1, 2]
-COLS, FPS, HOLD, BAR = 3, 20, 40, 72  # 568 + 72 = 640, a multiple of 16 for x264
+COLS, FPS, HOLD, BAR = 3, 20, 40, 80  # 512 + 80 = 592, a multiple of 16 for x264
 CAPTION = "6 simulated workcells · one GR00T N1.7 model · one MacBook (MPS)"
+NOTE = "Each job recorded separately and tiled afterwards · not real time"
 FONT = "/System/Library/Fonts/SFNS.ttf"
 OUT = HERE / "runs" / "fleet"
 RESULTS = HERE / "results"
@@ -54,7 +55,7 @@ def render(trials, path):
         cells.append([(len(c), j["success"]) for c, j in zip(cell_clips, jobs)])
     n_frames = max(sum(n for n, _ in jobs) for jobs in cells) + HOLD
     total = len(trials)
-    big, small = ImageFont.truetype(FONT, 28), ImageFont.truetype(FONT, 20)
+    big, small, note = (ImageFont.truetype(FONT, size) for size in (28, 20, 17))
     writer = imageio.get_writer(path, fps=FPS, codec="libx264", pixelformat="yuv420p")
     for f in range(n_frames):
         grid = Image.fromarray(tile([cell_frame(c, f) for c in clips], COLS))
@@ -66,11 +67,10 @@ def render(trials, path):
         canvas = Image.new("RGB", (grid.width, grid.height + BAR), (18, 18, 24))
         canvas.paste(grid, (0, BAR))
         draw = ImageDraw.Draw(canvas)
-        draw.text((16, BAR // 2), CAPTION, font=big, fill="white", anchor="lm")
+        draw.text((16, 28), CAPTION, font=big, fill="white", anchor="lm")
+        draw.text((16, 62), NOTE, font=note, fill=(170, 170, 180), anchor="lm")
         counter = f"Jobs completed: {completed_at(cells, f)} / {total}"
-        draw.text(
-            (canvas.width - 16, BAR // 2), counter, font=big, fill=(118, 214, 140), anchor="rm"
-        )
+        draw.text((canvas.width - 16, 28), counter, font=big, fill=(118, 214, 140), anchor="rm")
         writer.append_data(np.asarray(canvas))
     writer.close()
     return completed_at(cells, n_frames - 1)
