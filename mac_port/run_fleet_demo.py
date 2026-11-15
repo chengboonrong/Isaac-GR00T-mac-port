@@ -33,22 +33,21 @@ OUT = HERE / "runs" / "fleet"
 RESULTS = HERE / "results"
 
 
-def run_jobs():
+def run_jobs(tasks=TASKS, out=OUT):
     trials = []
-    for label, name in TASKS:
+    for label, name in tasks:
         for seed in SEEDS:
-            t = trial(seed, f"libero_sim/{name}", OUT / name)
-            rel = str(
-                pathlib.Path(t["video_dir"]).relative_to(HERE)
-            )  # no local paths in the report
+            t = trial(seed, f"libero_sim/{name}", out / name)
+            # no local paths in the report
+            rel = str(pathlib.Path(t["video_dir"]).relative_to(HERE))
             trials.append({**t, "video_dir": rel, "label": label})
             print(label, seed, t["termination"], flush=True)
     return trials
 
 
-def render(trials, path):
+def render(trials, path, tasks=TASKS, caption=CAPTION, note_text=NOTE):
     cells, clips = [], []
-    for i in range(len(TASKS)):
+    for i in range(len(tasks)):
         jobs = trials[i * len(SEEDS) : (i + 1) * len(SEEDS)]
         cell_clips = [load_clip(HERE / j["video_dir"]) for j in jobs]
         clips.append(cell_clips)
@@ -60,15 +59,15 @@ def render(trials, path):
     for f in range(n_frames):
         grid = Image.fromarray(tile([cell_frame(c, f) for c in clips], COLS))
         draw = ImageDraw.Draw(grid)
-        cw, ch = grid.width // COLS, grid.height // (len(TASKS) // COLS)
-        for i, (label, _) in enumerate(TASKS):
+        cw, ch = grid.width // COLS, grid.height // (len(tasks) // COLS)
+        for i, (label, _) in enumerate(tasks):
             x, y = (i % COLS) * cw + 10, (i // COLS) * ch + 8
             draw.text((x, y), label, font=small, fill="white", stroke_width=2, stroke_fill="black")
         canvas = Image.new("RGB", (grid.width, grid.height + BAR), (18, 18, 24))
         canvas.paste(grid, (0, BAR))
         draw = ImageDraw.Draw(canvas)
-        draw.text((16, 28), CAPTION, font=big, fill="white", anchor="lm")
-        draw.text((16, 62), NOTE, font=note, fill=(170, 170, 180), anchor="lm")
+        draw.text((16, 28), caption, font=big, fill="white", anchor="lm")
+        draw.text((16, 62), note_text, font=note, fill=(170, 170, 180), anchor="lm")
         counter = f"Jobs completed: {completed_at(cells, f)} / {total}"
         draw.text((canvas.width - 16, 28), counter, font=big, fill=(118, 214, 140), anchor="rm")
         writer.append_data(np.asarray(canvas))

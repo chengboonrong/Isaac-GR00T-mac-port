@@ -80,3 +80,29 @@ Full record: [`results/fleet_report.json`](results/fleet_report.json).
 # Terminal 2: 18 jobs (~10 min), then render. Add --render-only to rebuild the video from runs/fleet/report.json.
 cd mac_port && ../gr00t/eval/sim/LIBERO/libero_uv/.venv/bin/python run_fleet_demo.py
 ```
+
+## Trained vs untrained tasks
+
+This run uses the same checkpoint, robot, simulator, seeds (0–2) and 720-step limit as the fleet demo. The six tasks come from the LIBERO object, spatial and goal sets, which this `libero_10` checkpoint was **not** fine-tuned on. They are simple single-object pick-and-place tasks, and several use objects the trained tasks also use. Video: [`results/untrained_check.mp4`](results/untrained_check.mp4) (56 s). Full record: [`results/untrained_report.json`](results/untrained_report.json).
+
+| | Trained tasks (fleet demo) | Untrained tasks |
+|---|---|---|
+| Jobs succeeded | **17 / 18** | **4 / 18** |
+
+| Untrained task | LIBERO set | Succeeded | Steps (seeds 0, 1, 2) |
+|---|---|---|---|
+| Soup → basket | object | 2/3 | 367, 385, 720 |
+| Tomato sauce → basket | object | 0/3 | 720, 720, 720 |
+| Bowl (centre) → plate | spatial | 2/3 | 720, 550, 336 |
+| Bowl (by ramekin) → plate | spatial | 0/3 | 720, 720, 720 |
+| Bowl → plate | goal | 0/3 | 720, 720, 720 |
+| Cream cheese → bowl | goal | 0/3 | 720, 720, 720 |
+
+Every failure hit the 720-step limit. Caveats:
+- Each task was run only 3 times, so the per-task numbers are rough. The overall gap is large.
+- The untrained sets also use different scenes and layouts. So this measures "new scene plus new instruction", not new objects alone.
+- Some skill does carry over: the familiar soup-and-basket setup and the simplest bowl task each succeeded twice.
+
+```bash
+cd mac_port && ../gr00t/eval/sim/LIBERO/libero_uv/.venv/bin/python run_untrained_check.py   # ~18 min
+```
